@@ -4,6 +4,7 @@ from config.conexion_bd import base_de_datos
 from os import environ
 from dotenv import load_dotenv
 from models.Prueba import PruebaModel
+from models.Producto import ProductoModel
 
 load_dotenv()
 
