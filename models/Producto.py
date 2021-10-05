@@ -4,7 +4,7 @@ from sqlalchemy import Column, orm, types
 class ProductoModel(base_de_datos.Model):
     __tablename__ = 'productos'
 
-    productoId = Column(name='prod_id', type_=types.Integer,
+    productoId = Column(name='id', type_=types.Integer,
                        primary_key=True, nullable=False, autoincrement=True)
 
     productoNombre = Column(
@@ -15,10 +15,10 @@ class ProductoModel(base_de_datos.Model):
 
     productoImagen = Column(name='imagen', type_=types.Text, nullable=True)
 
-    productoPrecio = Column(name='precio', type_=types.DECIMAL(5,2),  nullable=True)
+    productoPrecio = Column(name='precio', type_=types.DECIMAL(5,2),  nullable=False)
 
     productoStock = Column(name='stock', type_=types.Integer, 
-                           nullable=False, unique=True, mini)
+                           nullable=False)
 
-    usuarioOferta = Column(name='oferta', type_=types.Boolean, nullable=False, default=False)
+    productoOferta = Column(name='oferta', type_=types.Boolean, nullable=False, default=False)
 
