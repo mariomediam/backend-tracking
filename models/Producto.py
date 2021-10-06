@@ -1,10 +1,10 @@
 from config.conexion_bd import base_de_datos
-from sqlalchemy import Column, orm, types
+from sqlalchemy import Column, types
 
 class ProductoModel(base_de_datos.Model):
     __tablename__ = 'productos'
 
-    productoId = Column(name='id', type_=types.Integer,
+    productoId = Column(name='prod_id', type_=types.Integer,
                        primary_key=True, nullable=False, autoincrement=True)
 
     productoNombre = Column(
@@ -18,7 +18,7 @@ class ProductoModel(base_de_datos.Model):
     productoPrecio = Column(name='precio', type_=types.DECIMAL(5,2),  nullable=False)
 
     productoStock = Column(name='stock', type_=types.Integer, 
-                           nullable=False)
+                           nullable=False, default=0)
 
     productoOferta = Column(name='oferta', type_=types.Boolean, nullable=False, default=False)
 
