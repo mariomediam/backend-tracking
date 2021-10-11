@@ -8,12 +8,12 @@ class ProductoModel(base_de_datos.Model):
                        primary_key=True, nullable=False, autoincrement=True)
 
     productoNombre = Column(
-        name='nombre', type_=types.String(50), nullable=False)
+        name='nombre', type_=types.String(50), nullable=False, unique=True)
 
     productoDescripcion = Column(
         name='descripcion', type_=types.String(100), nullable=False)
 
-    productoImagen = Column(name='imagen', type_=types.Text, nullable=True)
+    productoImagen = Column(name='imagen', type_=types.Text, nullable=False)
 
     productoPrecio = Column(name='precio', type_=types.DECIMAL(5,2),  nullable=False)
 

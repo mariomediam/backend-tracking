@@ -8,6 +8,7 @@ class ProductoController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
 
     def post(self):
+
         self.serializador.add_argument(
             'productoNombre',
             required=True,
@@ -27,7 +28,7 @@ class ProductoController(Resource):
             required=True,
             location='json',
             help='Debe ingresar imagen',
-            type=text
+            type=str
         )
         self.serializador.add_argument(
             'productoPrecio',
@@ -56,6 +57,7 @@ class ProductoController(Resource):
             nuevo_producto.productoPrecio = data.get('productoPrecio')
             nuevo_producto.productoStock = data.get('productoStock')
             nuevo_producto.productoOferta = data.get('productoOferta')
+            nuevo_producto.productoImagen = data.get('productoImagen')
             base_de_datos.session.add(nuevo_producto)
             base_de_datos.session.commit()
             return {
@@ -72,4 +74,16 @@ class ProductoController(Resource):
                 "content": e.args[0]
             }, 500
 
-        
+    def get(self):
+        productos = base_de_datos.session.query(ProductoModel).all()
+        resultado = []
+        for producto in productos:
+            producto_dicc = producto.__dict__
+            producto_dicc["productoPrecio"] = float(producto_dicc.get("productoPrecio"))
+            del producto_dicc['_sa_instance_state']
+            resultado.append(producto_dicc)
+
+        return {
+            "message": None,
+            "content": resultado
+        }
