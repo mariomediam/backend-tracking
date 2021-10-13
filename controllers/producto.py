@@ -3,10 +3,12 @@ from flask_restful import Resource, reqparse
 from sqlalchemy.sql.expression import text, true
 from models.producto import ProductoModel
 from config.conexion_bd import base_de_datos
+from flask_jwt import jwt_required
 
 class ProductoController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
 
+    @jwt_required()
     def post(self):
 
         self.serializador.add_argument(

@@ -15,6 +15,7 @@ from models.califica import CalificaModel
 from models.usuario import UsuarioModel
 from controllers.producto import ProductoController
 from controllers.usuarios import RegistroController, LoginController, UsuarioController
+from controllers.distrito import DistritosController, DistritoController
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
@@ -35,7 +36,7 @@ jsonwebtoken = JWT(app=app, authentication_handler=autenticador,
 
 
 base_de_datos.init_app(app)
-#base_de_datos.drop_all(app=app)
+# base_de_datos.drop_all(app=app)
 base_de_datos.create_all(app=app)
 
 @app.route("/")
@@ -47,6 +48,8 @@ api.add_resource(ProductoController, '/productos')
 api.add_resource(RegistroController, '/registro')
 api.add_resource(LoginController, "/login")
 api.add_resource(UsuarioController, "/usuario")
+api.add_resource(DistritosController, "/distritos")
+api.add_resource(DistritoController, "/distrito/<int:id>")
 
 if __name__ == '__main__':
     app.run(debug=True)    

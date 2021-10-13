@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "e3b06896-edc9-41d2-a4a6-6ac2a2c6f8d7",
+		"name": "Proyecto backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "productos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productoNombre\": \"Producto 0001\",\r\n    \"productoDescripcion\": \"Descripcion 0001\",\r\n    \"productoImagen\": \"Imagen 0001\",\r\n    \"productoPrecio\": 10.00,\r\n    \"productoStock\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/productos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/productos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "/registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Mario Medina\",\r\n    \"correo\": \"mariomedinam@gmail.com\",\r\n    \"password\": \"mariomedinam\",\r\n    \"telefono\": \"969763952\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/registro",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"registro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"correo\": \"mariomedinam@gmail.com\",\r\n    \"password\": \"mariomedinam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/login",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/loginjwt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mariomedinam@gmail.com\",\r\n    \"password\": \"mariomedinam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/auth",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzM5NjY0NDAsImlhdCI6MTYzMzk2NjE0MCwibmJmIjoxNjMzOTY2MTQwLCJpZGVudGl0eSI6MX0.3Sc13vHttnWQC16w2afhFjkiDp1PpIj53Q-5pUlFsj4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_local}}/usuario",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Distrito",
+			"item": [
+				{
+					"name": "/distritos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dptoNombre\": \"Piura\",\r\n    \"provNombre\": \"Piura\",\r\n    \"distrNombre\": \"Catacaos\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/distritos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"distritos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/distritos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/distritos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"distritos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/distrito/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/distrito/1",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"distrito",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_local",
+			"value": "http://127.0.0.1:5000"
+		}
+	]
+}
