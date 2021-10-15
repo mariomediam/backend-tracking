@@ -1,11 +1,13 @@
 from flask_restful import Resource, reqparse
 from sqlalchemy.sql.expression import text, true
-from sqlalchemy.sql.sqltypes import Integer
+from sqlalchemy.sql.sqltypes import ARRAY, Integer
 from models.pedido import PedidoModel
 from models.cliente import ClienteModel
 from config.conexion_bd import base_de_datos
 from flask_jwt import jwt_required
 import uuid
+
+from models.pedido_producto import PedidoProductoModel
 
 class PedidoController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
@@ -47,10 +49,17 @@ class PedidoController(Resource):
             location='json',
             type=str
         )
+        self.serializador.add_argument(
+            'pedProductos',
+            required=True,
+            location='json',
+            type=list
+        )
+
         data = self.serializador.parse_args()
+      
         try:    
             
-
             nuevo_cliente = ClienteModel().save(
                 data.get('clienteNombre'), 
                 data.get('clienteCorreo'), 
@@ -60,13 +69,23 @@ class PedidoController(Resource):
             )
 
             nuevo_pedido : PedidoModel = PedidoModel()
-            nuevo_pedido.pedidoToken = str(uuid.uuid4())[0:6] #"6ac21f" 
+            nuevo_pedido.pedidoToken = str(uuid.uuid4())[0:6]  #"6ac21f"
             nuevo_pedido.pedidoDireccion = data.get('pedidoDireccion')
             nuevo_pedido.pedidoDistrDestino = data.get('pedidoDistrDestino')
             nuevo_pedido.cliente = nuevo_cliente.clienteId
         
             base_de_datos.session.add(nuevo_pedido)
+
             base_de_datos.session.commit()
+
+            pedProductos = data.get('pedProductos')
+            for producto in pedProductos:
+                nuevo_pedProducto = PedidoProductoModel.agregar(nuevo_pedido.pedidoId, producto.get("producto"), producto.get("pedProdCantidad"))
+
+                base_de_datos.session.add(nuevo_pedProducto)
+
+            base_de_datos.session.commit()
+            
             return {
                 "message": "Pedido agregado exitosamente",
                 "content": {
