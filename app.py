@@ -15,7 +15,8 @@ from models.califica import CalificaModel
 from models.usuario import UsuarioModel
 from controllers.producto import ProductoController
 from controllers.usuarios import RegistroController, LoginController, UsuarioController
-from controllers.distrito import DistritosController, DistritoController
+from controllers.distrito import DistritosController, DistritoController, DistritosControllerFiltrar
+from controllers.pedido import PedidoController
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
@@ -50,6 +51,8 @@ api.add_resource(LoginController, "/login")
 api.add_resource(UsuarioController, "/usuario")
 api.add_resource(DistritosController, "/distritos")
 api.add_resource(DistritoController, "/distrito/<int:id>")
+api.add_resource(DistritosControllerFiltrar, "/buscar_distrito")
+api.add_resource(PedidoController, "/pedidos")
 
 if __name__ == '__main__':
     app.run(debug=True)    

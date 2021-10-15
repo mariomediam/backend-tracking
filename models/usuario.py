@@ -17,3 +17,5 @@ class UsuarioModel(base_de_datos.Model):
         name='telefono', type_=types.String(15), nullable=True)
 
     usuarioActivo = Column(name="activo", type_=types.Boolean, nullable=False, default=True)
+
+   

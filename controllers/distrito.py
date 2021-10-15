@@ -85,40 +85,56 @@ class DistritoController(Resource):
             }, 404
 
 
-# class DistritosControllerFiltrar(Resource):
-#     serializadorFiltro = reqparse.RequestParser()
-#     serializadorFiltro.add_argument(
-#         'dpto',
-#         location='args',
-#         required=False,
-#         type=str
-#     )
-#     serializadorFiltro.add_argument(
-#         'prov',
-#         location='args',
-#         required=False,
-#         type=str
-#     )
-#     serializadorFiltro.add_argument(
-#         'dist',
-#         location='args',
-#         required=False,
-#         type=str
-#     )
-#     def get(self):
-#         resultado = DistritoModel.Item.query
 
+class DistritosControllerFiltrar(Resource):
+
+    def __init__(self):
+        self.serializadorFiltro = reqparse.RequestParser()
+        self.serializadorFiltro.add_argument(
+            'dpto',
+            location='args',
+            required=False,
+            type=str
+        )
+        self.serializadorFiltro.add_argument(
+            'prov',
+            location='args',
+            required=False,
+            type=str
+        )
+        self.serializadorFiltro.add_argument(
+            'dist',
+            location='args',
+            required=False,
+            type=str
+        )
         
 
-#         if resultado:
-#             data = resultado.__dict__
-#             del data['_sa_instance_state']
-#             return {
-#                 "message": "distrito",
-#                 "content": data
-#             }
-#         else:
-#             return {
-#                 "message": "El distrito no existe",
-#                 "content": resultado
-#             }, 404
+    def get(self):
+        consulta = base_de_datos.session.query(DistritoModel)
+        filtros = self.serializadorFiltro.parse_args()
+
+        if filtros.dpto:
+            consulta = consulta.filter(DistritoModel.dptoNombre == filtros['dpto'])
+        if filtros.prov:
+            consulta = consulta.filter(DistritoModel.provNombre == filtros['prov'])
+        if filtros.dist:
+            consulta = consulta.filter(DistritoModel.distrNombre == filtros['dist'])
+
+        resultado = consulta.all()
+        
+        if resultado:
+            resultado_final = []
+            for registro in resultado:
+                resultado = registro.__dict__
+                del resultado['_sa_instance_state']
+                resultado_final.append(resultado)                            
+            return {
+                "message": "Registros encontrados",
+                "content": resultado_final
+            }
+        else:
+            return {
+                "message": "No se encontraron registros coincidentes",
+                "content": resultado
+            }, 404
