@@ -16,7 +16,9 @@ from models.usuario import UsuarioModel
 from controllers.producto import ProductoController
 from controllers.usuarios import RegistroController, LoginController, UsuarioController
 from controllers.distrito import DistritosController, DistritoController, DistritosControllerFiltrar
-from controllers.pedido import PedidoController
+from controllers.pedido import PedidosController, PedidoController
+from controllers.cliente import ClientesController, ClienteController, ClientesControllerFiltrar
+from controllers.pedido_producto import PedidoProductosController
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
@@ -52,7 +54,11 @@ api.add_resource(UsuarioController, "/usuario")
 api.add_resource(DistritosController, "/distritos")
 api.add_resource(DistritoController, "/distrito/<int:id>")
 api.add_resource(DistritosControllerFiltrar, "/buscar_distrito")
-api.add_resource(PedidoController, "/pedidos")
-
+api.add_resource(PedidosController, "/pedidos")
+api.add_resource(PedidoController, "/pedido/<int:id>")
+api.add_resource(ClientesController, "/clientes")
+api.add_resource(ClienteController, "/cliente/<int:id>")
+api.add_resource(ClientesControllerFiltrar, "/buscar_cliente")
+api.add_resource(PedidoProductosController, "/pedido_productos")
 if __name__ == '__main__':
     app.run(debug=True)    

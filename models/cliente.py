@@ -11,7 +11,7 @@ class ClienteModel(base_de_datos.Model):
 
     clienteNombre = Column(name="nombre", type_=types.String(50), nullable=False)
 
-    clienteCorreo = Column(name="correo", type_=types.String(50), nullable=False)
+    clienteCorreo = Column(name="correo", type_=types.String(50), nullable=False, unique=True)
 
     clienteTelefono = Column(name="telefono", type_=types.String(20), nullable=True)
 

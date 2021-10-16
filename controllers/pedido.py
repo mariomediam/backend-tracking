@@ -9,7 +9,7 @@ import uuid
 
 from models.pedido_producto import PedidoProductoModel
 
-class PedidoController(Resource):
+class PedidosController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
 
     @jwt_required()
@@ -101,3 +101,36 @@ class PedidoController(Resource):
                 "content": e.args[0]
             }, 500
 
+    @jwt_required()
+    def get(self):
+        pedidos = base_de_datos.session.query(PedidoModel).all()
+        resultado = []
+        for pedido in pedidos:
+            pedido_dicc = pedido.__dict__            
+            del pedido_dicc['_sa_instance_state']
+            pedido_dicc['pedidoFecha'] = str(pedido_dicc['pedidoFecha'])
+            resultado.append(pedido_dicc)
+
+        return {
+            "message": None,
+            "content": resultado
+        }
+
+class PedidoController(Resource):
+    def get(self, id):
+        resultado = base_de_datos.session.query(
+            PedidoModel).filter(PedidoModel.pedidoId == id).first()
+
+        if resultado:
+            data = resultado.__dict__
+            del data['_sa_instance_state']
+            data['pedidoFecha'] = str(data['pedidoFecha'])
+            return {
+                "message": "pedido",
+                "content": data
+            }
+        else:
+            return {
+                "message": "El pedido no existe",
+                "content": resultado
+            }, 404        
