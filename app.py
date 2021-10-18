@@ -16,17 +16,23 @@ from models.usuario import UsuarioModel
 from controllers.producto import ProductoController
 from controllers.usuarios import RegistroController, LoginController, UsuarioController
 from controllers.distrito import DistritosController, DistritoController, DistritosControllerFiltrar
-from controllers.pedido import PedidosController, PedidoController
+from controllers.pedido import PedidosController, PedidoController, PedidoControllerFiltrar
 from controllers.cliente import ClientesController, ClienteController, ClientesControllerFiltrar
 from controllers.pedido_producto import PedidoProductosController
+from controllers.pedido_ruta import PedidoRutaControllerPorPedidoId
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
+from flask_cors import CORS
+
 
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app=app, origins='*', methods=['GET',
+     'POST', 'PUT', 'DELETE'], allow_headers='Content-Type')
+
 api = Api(app)
 # config => las variables de configuracion de mi proyecto de flask DEBUG=TRUE, PORT= 5000, ENVIRONMENT=DEVELOPMENT
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URI')
@@ -60,5 +66,8 @@ api.add_resource(ClientesController, "/clientes")
 api.add_resource(ClienteController, "/cliente/<int:id>")
 api.add_resource(ClientesControllerFiltrar, "/buscar_cliente")
 api.add_resource(PedidoProductosController, "/pedido_productos")
+api.add_resource(PedidoControllerFiltrar, "/buscar_pedido")
+api.add_resource(PedidoRutaControllerPorPedidoId, "/buscar_pedido_ruta")
+
 if __name__ == '__main__':
     app.run(debug=True)    

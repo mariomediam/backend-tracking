@@ -1,4 +1,6 @@
+from flask_cors.core import try_match
 from flask_restful import Resource, reqparse
+from sqlalchemy.orm import session
 from sqlalchemy.sql.expression import text, true
 from sqlalchemy.sql.sqltypes import ARRAY, Integer
 from models.pedido import PedidoModel
@@ -6,8 +8,11 @@ from models.cliente import ClienteModel
 from config.conexion_bd import base_de_datos
 from flask_jwt import jwt_required
 import uuid
+from datetime import datetime, timedelta
 
 from models.pedido_producto import PedidoProductoModel
+from models.pedido_ruta import PedidoRutaModel
+from models.plantilla_rutas import PlantillaRutasModel
 
 class PedidosController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
@@ -55,6 +60,12 @@ class PedidosController(Resource):
             location='json',
             type=list
         )
+        self.serializador.add_argument(
+            'pedidoGeo',
+            required=True,
+            location='json',
+            type=list
+        )
 
         data = self.serializador.parse_args()
       
@@ -68,21 +79,47 @@ class PedidosController(Resource):
                 data.get('pedidoDistrDestino')
             )
 
+            #punto_guardado = base_de_datos.session.begin_nested()
+
             nuevo_pedido : PedidoModel = PedidoModel()
             nuevo_pedido.pedidoToken = str(uuid.uuid4())[0:6]  #"6ac21f"
             nuevo_pedido.pedidoDireccion = data.get('pedidoDireccion')
             nuevo_pedido.pedidoDistrDestino = data.get('pedidoDistrDestino')
+            nuevo_pedido.pedidoGeo = data.get("pedidoGeo")
             nuevo_pedido.cliente = nuevo_cliente.clienteId
+            
         
             base_de_datos.session.add(nuevo_pedido)
 
             base_de_datos.session.commit()
+            #punto_guardado2 = base_de_datos.session.begin_nested()
+            print(nuevo_pedido.pedidoId)
 
             pedProductos = data.get('pedProductos')
             for producto in pedProductos:
                 nuevo_pedProducto = PedidoProductoModel.agregar(nuevo_pedido.pedidoId, producto.get("producto"), producto.get("pedProdCantidad"))
-
                 base_de_datos.session.add(nuevo_pedProducto)
+
+            rutas = base_de_datos.session.query(PlantillaRutasModel).filter(PlantillaRutasModel.distrDestino==data.get('pedidoDistrDestino')).all()
+
+            fecha_base = datetime.now()
+            for ruta in rutas:
+                pedido_ruta = PedidoRutaModel()
+                pedido_ruta.pedido = nuevo_pedido.pedidoId
+                pedido_ruta.pedRutPasoNro = ruta.plantPasoNro
+                pedido_ruta.pedRutPasoTipo = ruta.plantPasoTipo.name
+                pedido_ruta.pedRutTiempoEst = ruta.plantTiempoEst
+                fecha_base += timedelta(days=ruta.plantTiempoEst)
+                pedido_ruta.pedRutFechaEst = fecha_base
+                base_de_datos.session.add(pedido_ruta)
+
+            base_de_datos.session.commit()
+        
+
+
+
+            
+            #punto_guardado2.rollback()
 
             base_de_datos.session.commit()
             
@@ -134,3 +171,58 @@ class PedidoController(Resource):
                 "message": "El pedido no existe",
                 "content": resultado
             }, 404        
+
+class PedidoControllerFiltrar(Resource):
+
+    def __init__(self):
+        self.serializadorFiltro = reqparse.RequestParser()
+        self.serializadorFiltro.add_argument(
+            'token',
+            location='args',
+            required=False,
+            type=str
+        )
+        
+
+    def get(self):
+        consulta = base_de_datos.session.query(PedidoModel)
+        filtros = self.serializadorFiltro.parse_args()
+
+        try:
+            if filtros.token:
+                consulta = consulta.filter(PedidoModel.pedidoToken == filtros['token'])
+
+            resultado = consulta.all()
+            
+            resultado_final = []
+            if resultado:
+                for registro in resultado:
+                    resultado = registro.__dict__
+
+                    cliente_buscado : ClienteModel = base_de_datos.session.query(ClienteModel).filter(ClienteModel.clienteId==resultado["cliente"]).first()
+                    
+                    del resultado['_sa_instance_state']
+                    resultado['pedidoFecha'] = str(resultado['pedidoFecha'])
+                    resultado['clienteNombre'] = cliente_buscado.clienteNombre
+                    resultado['clienteTelefono'] = cliente_buscado.clienteTelefono
+                    resultado['clienteCorreo'] = cliente_buscado.clienteCorreo
+                    resultado_final.append(resultado)                            
+                return {
+                    "message": "Registros encontrados",
+                    "content": resultado_final
+                }, 200
+            else:
+                return {
+                    "message": "0 Registros encontrados",
+                    "content": resultado_final
+                } , 200           
+        
+        except Exception as error:
+            return {
+                    "message": "Error realizando la consulta",
+                    "content": error
+                }, 404            
+
+
+
+        

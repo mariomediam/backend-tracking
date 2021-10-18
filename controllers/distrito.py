@@ -27,6 +27,13 @@ class DistritosController(Resource):
             help='Debe ingresar Distrito',
             type=str
         )
+        self.serializador.add_argument(
+            'distrGeo',
+            required=True,
+            location='json',
+            help='Debe ingresar ubicación georeferencial ',
+            type=list
+        )
 
         data = self.serializador.parse_args()
         try:
@@ -34,6 +41,7 @@ class DistritosController(Resource):
             nuevo_distrito.dptoNombre = data.get('dptoNombre')
             nuevo_distrito.provNombre = data.get('provNombre')
             nuevo_distrito.distrNombre = data.get('distrNombre')
+            nuevo_distrito.distrGeo = data.get('distrGeo')
             
             
             base_de_datos.session.add(nuevo_distrito)
