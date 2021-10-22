@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+</head>
+<body>
+    <h1 style="text-align:center">{{ pedidoToken }}</h1>
+    <p>Cliente: {{ clienteNombre }}</p>
+    <p>Correo: {{ clienteCorreo }}</p>
+    <p>Teléfono: {{ clienteTelefono }}</p>
+    <p>Dirección: {{ pedidoDireccion }} - {{ dptoNombre }} / {{ provNombre }} / {{ distrNombre }}</p>
+    
+    <h2>Productos</h2>
+    <table>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+        </tr>
+        {% for producto in productos %}
+            <tr>          
+                <td>{{ producto.productoNombre }}</td>
+                <td>{{ producto.productoDescripcion }}</td>
+                <td>{{ producto.pedProdCantidad }}</td>          
+            </tr>        
+        {% endfor %}
+    </table>
+    <h2>Recorrido estimado</h2>
+    <table>
+        <tr>
+          <th>Tipo</th>
+          <th>Dias</th>
+          <th>Fecha</th>
+        </tr>
+        {% for ruta in rutas %}
+            <tr>          
+                <td>{{ ruta.paso }}</td>
+                <td>{{ ruta.tiempoEstimado }}</td>
+                <td>{{ ruta.fechaEstimada }}</td>          
+            </tr>        
+        {% endfor %}
+    </table>
+<body>
+</html>

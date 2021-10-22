@@ -3,8 +3,10 @@ from flask_restful import Resource, reqparse
 from sqlalchemy.orm import session
 from sqlalchemy.sql.expression import text, true
 from sqlalchemy.sql.sqltypes import ARRAY, Integer
+from models.distrito import DistritoModel
 from models.pedido import PedidoModel
 from models.cliente import ClienteModel
+from models.producto import ProductoModel
 from config.conexion_bd import base_de_datos
 from flask_jwt import jwt_required
 import uuid
@@ -13,6 +15,7 @@ from datetime import datetime, timedelta
 from models.pedido_producto import PedidoProductoModel
 from models.pedido_ruta import PedidoRutaModel
 from models.plantilla_rutas import PlantillaRutasModel
+from controllers.to_pdf import pdf_template
 
 class PedidosController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
@@ -96,13 +99,26 @@ class PedidosController(Resource):
             print(nuevo_pedido.pedidoId)
 
             pedProductos = data.get('pedProductos')
+            productos = []
             for producto in pedProductos:
+                producto_buscado : ProductoModel = base_de_datos.session.query(ProductoModel).filter(ProductoModel.productoId==producto.get("producto")).first()
+
                 nuevo_pedProducto = PedidoProductoModel.agregar(nuevo_pedido.pedidoId, producto.get("producto"), producto.get("pedProdCantidad"))
+
+                productos.append(
+                    {
+                        "productoNombre":producto_buscado.productoNombre,
+                        "productoDescripcion":producto_buscado.productoDescripcion,
+                        "pedProdCantidad":producto.get("pedProdCantidad")
+                    }
+                )
+
                 base_de_datos.session.add(nuevo_pedProducto)
 
             rutas = base_de_datos.session.query(PlantillaRutasModel).filter(PlantillaRutasModel.distrDestino==data.get('pedidoDistrDestino')).all()
 
             fecha_base = datetime.now()
+            rutas_template = []
             for ruta in rutas:
                 pedido_ruta = PedidoRutaModel()
                 pedido_ruta.pedido = nuevo_pedido.pedidoId
@@ -111,17 +127,42 @@ class PedidosController(Resource):
                 pedido_ruta.pedRutTiempoEst = ruta.plantTiempoEst
                 fecha_base += timedelta(days=ruta.plantTiempoEst)
                 pedido_ruta.pedRutFechaEst = fecha_base
+
+                rutas_template.append(
+                    {
+                        "paso":ruta.plantPasoTipo.name,
+                        "tiempoEstimado":ruta.plantTiempoEst,
+                        "fechaEstimada": pedido_ruta.pedRutFechaEst.strftime("%d/%m/%Y")
+                    }
+                )
                 base_de_datos.session.add(pedido_ruta)
+
+            #print(rutas)
 
             base_de_datos.session.commit()
         
-
-
-
-            
             #punto_guardado2.rollback()
 
             base_de_datos.session.commit()
+
+            #GENERA PDF
+            distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
+
+            
+            pdf_template(
+                template="formato_compra.html", 
+                output=nuevo_pedido.pedidoToken, 
+                pedidoToken=nuevo_pedido.pedidoToken,
+                clienteNombre=data.get('clienteNombre'), 
+                clienteCorreo=data.get('clienteCorreo'), 
+                clienteTelefono=data.get('clienteTelefono'), 
+                pedidoDireccion=data.get('pedidoDireccion'),
+                dptoNombre = distrito_destino.dptoNombre,
+                provNombre = distrito_destino.provNombre,
+                distrNombre = distrito_destino.distrNombre,
+                productos = productos,
+                rutas=rutas_template
+            )
             
             return {
                 "message": "Pedido agregado exitosamente",

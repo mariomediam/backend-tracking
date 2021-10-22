@@ -20,6 +20,7 @@ from controllers.pedido import PedidosController, PedidoController, PedidoContro
 from controllers.cliente import ClientesController, ClienteController, ClientesControllerFiltrar
 from controllers.pedido_producto import PedidoProductosController
 from controllers.pedido_ruta import PedidoRutaControllerPorPedidoId
+from controllers.reportes import ReporteControllerVentasPorDistrito, ReporteControllerVentasPorProducto, ReporteControllerVentasPorCliente
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
@@ -39,6 +40,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = environ.get('JWT_SECRET')
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(days=1)
+app.config["PATH_STATIC"] ="./static"
 
 jsonwebtoken = JWT(app=app, authentication_handler=autenticador,
                    identity_handler=identificador)
@@ -68,6 +70,8 @@ api.add_resource(ClientesControllerFiltrar, "/buscar_cliente")
 api.add_resource(PedidoProductosController, "/pedido_productos")
 api.add_resource(PedidoControllerFiltrar, "/buscar_pedido")
 api.add_resource(PedidoRutaControllerPorPedidoId, "/buscar_pedido_ruta")
-
+api.add_resource(ReporteControllerVentasPorDistrito, "/reporte_venta_distrito")
+api.add_resource(ReporteControllerVentasPorProducto, "/reporte_venta_producto")
+api.add_resource(ReporteControllerVentasPorCliente, "/reporte_venta_cliente")
 if __name__ == '__main__':
     app.run(debug=True)    

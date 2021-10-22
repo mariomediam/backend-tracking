@@ -123,11 +123,12 @@ class DistritosControllerFiltrar(Resource):
         filtros = self.serializadorFiltro.parse_args()
 
         if filtros.dpto:
-            consulta = consulta.filter(DistritoModel.dptoNombre == filtros['dpto'])
+            #consulta = consulta.filter(DistritoModel.dptoNombre == filtros['dpto'])
+            consulta = consulta.filter(DistritoModel.dptoNombre.ilike(filtros['dpto']))
         if filtros.prov:
-            consulta = consulta.filter(DistritoModel.provNombre == filtros['prov'])
+            consulta = consulta.filter(DistritoModel.provNombre.ilike(filtros['prov']))
         if filtros.dist:
-            consulta = consulta.filter(DistritoModel.distrNombre == filtros['dist'])
+            consulta = consulta.filter(DistritoModel.distrNombre.ilike(filtros['dist']))
 
         resultado = consulta.all()
         
