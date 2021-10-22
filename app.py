@@ -3,7 +3,6 @@ from flask_restful import Api
 from config.conexion_bd import base_de_datos
 from os import environ
 from dotenv import load_dotenv
-from controllers.producto import ProductoController
 from models.producto import ProductoModel
 from models.distrito import DistritoModel
 from models.cliente import ClienteModel
@@ -13,6 +12,7 @@ from models.plantilla_rutas import PlantillaRutasModel
 from models.pedido_ruta import PedidoRutaModel
 from models.califica import CalificaModel
 from models.usuario import UsuarioModel
+from controllers.producto import ProductoController
 from controllers.producto import ProductoController
 from controllers.usuarios import RegistroController, LoginController, UsuarioController
 from controllers.distrito import DistritosController, DistritoController, DistritosControllerFiltrar

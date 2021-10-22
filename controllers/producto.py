@@ -1,6 +1,6 @@
-import decimal
+#import decimal
 from flask_restful import Resource, reqparse
-from sqlalchemy.sql.expression import text, true
+#from sqlalchemy.sql.expression import text, true
 from models.producto import ProductoModel
 from config.conexion_bd import base_de_datos
 from flask_jwt import jwt_required
@@ -37,7 +37,7 @@ class ProductoController(Resource):
             required=True,
             location='json',
             help='Debe ingresar precio',
-            type=decimal.Decimal
+            type=float
         )
         self.serializador.add_argument(
             'productoStock',
