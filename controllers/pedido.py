@@ -146,23 +146,23 @@ class PedidosController(Resource):
             base_de_datos.session.commit()
 
             #GENERA PDF
-            distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
+            # distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
 
             
-            pdf_template(
-                template="formato_compra.html", 
-                output=nuevo_pedido.pedidoToken, 
-                pedidoToken=nuevo_pedido.pedidoToken,
-                clienteNombre=data.get('clienteNombre'), 
-                clienteCorreo=data.get('clienteCorreo'), 
-                clienteTelefono=data.get('clienteTelefono'), 
-                pedidoDireccion=data.get('pedidoDireccion'),
-                dptoNombre = distrito_destino.dptoNombre,
-                provNombre = distrito_destino.provNombre,
-                distrNombre = distrito_destino.distrNombre,
-                productos = productos,
-                rutas=rutas_template
-            )
+            # pdf_template(
+            #     template="formato_compra.html", 
+            #     output=nuevo_pedido.pedidoToken, 
+            #     pedidoToken=nuevo_pedido.pedidoToken,
+            #     clienteNombre=data.get('clienteNombre'), 
+            #     clienteCorreo=data.get('clienteCorreo'), 
+            #     clienteTelefono=data.get('clienteTelefono'), 
+            #     pedidoDireccion=data.get('pedidoDireccion'),
+            #     dptoNombre = distrito_destino.dptoNombre,
+            #     provNombre = distrito_destino.provNombre,
+            #     distrNombre = distrito_destino.distrNombre,
+            #     productos = productos,
+            #     rutas=rutas_template
+            # )
             
             return {
                 "message": "Pedido agregado exitosamente",
