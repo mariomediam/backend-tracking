@@ -22,4 +22,5 @@ simplejson==3.17.5
 six==1.16.0
 SQLAlchemy==1.4.25
 Werkzeug==2.0.1
+wkhtmltopdf==0.2
 uwsgi
