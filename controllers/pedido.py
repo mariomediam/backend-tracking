@@ -20,7 +20,7 @@ from controllers.to_pdf import pdf_template
 class PedidosController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
 
-    @jwt_required()
+    #@jwt_required()
     def post(self):
 
         self.serializador.add_argument(

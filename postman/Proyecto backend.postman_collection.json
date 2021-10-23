@@ -12,10 +12,16 @@
 					"name": "productos",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzQ1MzQxMzgsImlhdCI6MTYzNDQ0NzczOCwibmJmIjoxNjM0NDQ3NzM4LCJpZGVudGl0eSI6MX0.xt5Bbxm5CBlWx6CxKbujaDd4uTlrpraySAzLdYCUdh0",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productoNombre\": \"Producto 0001\",\r\n    \"productoDescripcion\": \"Descripcion 0001\",\r\n    \"productoImagen\": \"Imagen 0001\",\r\n    \"productoPrecio\": 10.00,\r\n    \"productoStock\": 5\r\n}",
+							"raw": "{\r\n    \"productoNombre\": \"Pulsera inteligente Xiaomi Mi Band 6\",\r\n    \"productoDescripcion\": \"Bluetooth multilenguaje\",\r\n    \"productoImagen\": \"https://firebasestorage.googleapis.com/v0/b/codigo-g9-a28b5.appspot.com/o/fotos%2Fpulsera.jpg?alt=media&token=662c5dcf-a44c-4c30-ae1d-a1bc36af9986\",\r\n    \"productoPrecio\": 162,\r\n    \"productoStock\": 100,\r\n    \"productoOferta\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -169,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dptoNombre\": \"Piura\",\r\n    \"provNombre\": \"Piura\",\r\n    \"distrNombre\": \"Catacaos\"\r\n}",
+							"raw": "{\r\n    \"dptoNombre\": \"Cuzco\",\r\n    \"provNombre\": \"Cuzco\",\r\n    \"distrNombre\": \"Cuzco\",\r\n    \"distrGeo\": [-13.5240215,-71.9737313]\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,6 +224,352 @@
 							"path": [
 								"distrito",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/buscar_distrito",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/buscar_distrito?dpto=AREQUIPA&prov=caylloma&dist=chivay",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"buscar_distrito"
+							],
+							"query": [
+								{
+									"key": "dpto",
+									"value": "AREQUIPA"
+								},
+								{
+									"key": "prov",
+									"value": "caylloma"
+								},
+								{
+									"key": "dist",
+									"value": "chivay"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "/pedidos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzQ4NDQ3MzQsImlhdCI6MTYzNDc1ODMzNCwibmJmIjoxNjM0NzU4MzM0LCJpZGVudGl0eSI6MX0.tuJb1gK8F5Fz7DaDiQZfiN9y-mkL0hi4urnEeVLDEVI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pedidoDireccion\": \"Direccion xyz\",\r\n    \"pedidoDistrDestino\": 3,\r\n    \"clienteNombre\": \"Mario Alexander\",\r\n    \"clienteCorreo\": \"micorreo@gmail.com\",\r\n    \"pedidoGeo\": [-2.197029,-3.626308],\r\n    \"pedProductos\": [\r\n        {\r\n            \"producto\": 5,\r\n            \"pedProdCantidad\":5\r\n        },\r\n        {\r\n            \"producto\": 6,\r\n            \"pedProdCantidad\":10\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/pedidos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzQ0NDQ2MzMsImlhdCI6MTYzNDM1ODIzMywibmJmIjoxNjM0MzU4MjMzLCJpZGVudGl0eSI6MX0.UhxE8pMaJnqv6VYO6c_Wa4nkFh94Rex1eL420pA1LFs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_local}}/pedidos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/pedido/55",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"pedido",
+								"55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/buscar_pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/buscar_pedido?token=3627c5",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"buscar_pedido"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "3627c5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "/clientes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clienteNombre\": \"Mi cliente\",\r\n    \"clienteCorreo\": \"micorreo3@correo.com\",\r\n    \"clienteDireccion\": \"MI Casa\",\r\n    \"clienteTelefono\": \"969785412\",\r\n    \"clienteDistrito\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/clientes",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cliente/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/cliente/2",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"cliente",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/clientes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/clientes",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/buscar_cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/buscar_cliente?correo=paula@correo.com",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"buscar_cliente"
+							],
+							"query": [
+								{
+									"key": "correo",
+									"value": "paula@correo.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido Producto",
+			"item": [
+				{
+					"name": "/pedido_productos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pedProdCantidad\": 3,\r\n    \"pedido\": 40,\r\n    \"producto\": 5,\r\n    \"pedProdPrecioUnit\": 12.34\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/pedido_productos",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"pedido_productos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedido Ruta",
+			"item": [
+				{
+					"name": "/buscar_pedido_ruta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "/reporte_venta_distrito",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/reporte_venta_distrito",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"reporte_venta_distrito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reporte_venta_producto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/reporte_venta_producto",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"reporte_venta_producto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reporte_venta_cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/reporte_venta_cliente",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"reporte_venta_cliente"
 							]
 						}
 					},
