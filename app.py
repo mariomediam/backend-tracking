@@ -47,6 +47,7 @@ swagger_blueprint = get_swaggerui_blueprint(
 # FIN DE CONFIGURACION
 
 app = Flask(__name__)
+app.register_blueprint(swagger_blueprint)
 CORS(app=app, origins='*', methods=['GET',
      'POST', 'PUT', 'DELETE'], allow_headers='Content-Type')
 

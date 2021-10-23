@@ -72,7 +72,9 @@ class PedidosController(Resource):
 
         data = self.serializador.parse_args()
       
-        try:    
+        try:
+
+              
             
             nuevo_cliente = ClienteModel().save(
                 data.get('clienteNombre'), 
@@ -80,9 +82,9 @@ class PedidosController(Resource):
                 data.get('clienteTelefono'), 
                 data.get('pedidoDireccion'), 
                 data.get('pedidoDistrDestino')
-            )
+            )            
 
-            #punto_guardado = base_de_datos.session.begin_nested()
+            #punto_guardado = base_de_datos.session.begin_nested()  
 
             nuevo_pedido : PedidoModel = PedidoModel()
             nuevo_pedido.pedidoToken = str(uuid.uuid4())[0:6]  #"6ac21f"
@@ -90,18 +92,24 @@ class PedidosController(Resource):
             nuevo_pedido.pedidoDistrDestino = data.get('pedidoDistrDestino')
             nuevo_pedido.pedidoGeo = data.get("pedidoGeo")
             nuevo_pedido.cliente = nuevo_cliente.clienteId
-            
-        
+                    
             base_de_datos.session.add(nuevo_pedido)
 
-            base_de_datos.session.commit()
-            #punto_guardado2 = base_de_datos.session.begin_nested()
-            print(nuevo_pedido.pedidoId)
+            base_de_datos.session.flush()
 
             pedProductos = data.get('pedProductos')
             productos = []
             for producto in pedProductos:
                 producto_buscado : ProductoModel = base_de_datos.session.query(ProductoModel).filter(ProductoModel.productoId==producto.get("producto")).first()
+
+                if not producto_buscado:
+                    raise Exception("El producto con id {} no existe".format(producto.get("producto")))
+
+                if producto_buscado.productoStock < producto.get("pedProdCantidad"):
+                    raise Exception("El producto {} solo tiene en stock {} unidades".format(producto_buscado.productoNombre, producto_buscado.productoStock))
+                else:
+                    producto_buscado.productoStock -= producto.get("pedProdCantidad")
+
 
                 nuevo_pedProducto = PedidoProductoModel.agregar(nuevo_pedido.pedidoId, producto.get("producto"), producto.get("pedProdCantidad"))
 
@@ -137,16 +145,10 @@ class PedidosController(Resource):
                 )
                 base_de_datos.session.add(pedido_ruta)
 
-            #print(rutas)
-
-            base_de_datos.session.commit()
-        
-            #punto_guardado2.rollback()
-
             base_de_datos.session.commit()
 
             #GENERA PDF
-            # distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
+            distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
 
             
             # pdf_template(

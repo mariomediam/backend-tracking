@@ -1,3 +1,4 @@
 entorno_flask/
 __pycache__/
 .env
+static/pdfs/*
