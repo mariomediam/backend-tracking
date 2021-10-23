@@ -86,6 +86,6 @@ class ProductoController(Resource):
             resultado.append(producto_dicc)
 
         return {
-            "message": None,
+            "message": "productos",
             "content": resultado
         }
