@@ -1,0 +1,959 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Proyecto backend",
+    "contact": {}
+  },
+  "host": "tracking-flask.herokuapp.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/productos": {
+      "post": {
+        "summary": "productos",
+        "tags": [
+          "Productos"
+        ],
+        "operationId": "productos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/productosrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "/productos",
+        "tags": [
+          "Productos"
+        ],
+        "operationId": "/productos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/registro": {
+      "post": {
+        "summary": "/registro",
+        "tags": [
+          "Usuarios"
+        ],
+        "operationId": "/registro",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1registrorequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "/login",
+        "tags": [
+          "Usuarios"
+        ],
+        "operationId": "/login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1loginrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "summary": "/loginjwt",
+        "tags": [
+          "Usuarios"
+        ],
+        "operationId": "/loginjwt",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1loginjwtrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/usuario": {
+      "get": {
+        "summary": "/usuario",
+        "tags": [
+          "Usuarios"
+        ],
+        "operationId": "/usuario",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/distritos": {
+      "post": {
+        "summary": "/distritos",
+        "tags": [
+          "Distrito"
+        ],
+        "operationId": "/distritos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1distritosrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "/distritos",
+        "tags": [
+          "Distrito"
+        ],
+        "operationId": "Get/distritos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/distrito/{id}": {
+      "get": {
+        "summary": "/distrito/{id}",
+        "tags": [
+          "Distrito"
+        ],
+        "operationId": "/distrito/{id}",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "Numeric ID of the distrito to get."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/buscar_distrito": {
+      "get": {
+        "summary": "/buscar_distrito",
+        "tags": [
+          "Distrito"
+        ],
+        "operationId": "/buscar_distrito",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dpto",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "prov",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "dist",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/pedidos": {
+      "post": {
+        "summary": "/pedidos",
+        "tags": [
+          "Pedidos"
+        ],
+        "operationId": "/pedidos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1pedidosrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "/pedidos",
+        "tags": [
+          "Pedidos"
+        ],
+        "operationId": "Get/pedidos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/pedido/55": {
+      "get": {
+        "summary": "/pedido",
+        "tags": [
+          "Pedidos"
+        ],
+        "operationId": "/pedido",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/buscar_pedido": {
+      "get": {
+        "summary": "/buscar_pedido",
+        "tags": [
+          "Pedidos"
+        ],
+        "operationId": "/buscar_pedido",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/clientes": {
+      "post": {
+        "summary": "/clientes",
+        "tags": [
+          "Clientes"
+        ],
+        "operationId": "/clientes",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1clientesrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "summary": "/clientes",
+        "tags": [
+          "Clientes"
+        ],
+        "operationId": "Get/clientes",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/cliente/2": {
+      "get": {
+        "summary": "/cliente/{id}",
+        "tags": [
+          "Clientes"
+        ],
+        "operationId": "/cliente/{id}",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/buscar_cliente": {
+      "get": {
+        "summary": "/buscar_cliente",
+        "tags": [
+          "Clientes"
+        ],
+        "operationId": "/buscar_cliente",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "correo",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/pedido_productos": {
+      "post": {
+        "summary": "/pedido_productos",
+        "tags": [
+          "Pedido Producto"
+        ],
+        "operationId": "/pedido_productos",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1pedido_productos_request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "/buscar_pedido_ruta",
+        "tags": [
+          "Pedido Ruta"
+        ],
+        "operationId": "/buscar_pedido_ruta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/reporte_venta_distrito": {
+      "get": {
+        "summary": "/reporte_venta_distrito",
+        "tags": [
+          "Reportes"
+        ],
+        "operationId": "/reporte_venta_distrito",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/reporte_venta_producto": {
+      "get": {
+        "summary": "/reporte_venta_producto",
+        "tags": [
+          "Reportes"
+        ],
+        "operationId": "/reporte_venta_producto",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/reporte_venta_cliente": {
+      "get": {
+        "summary": "/reporte_venta_cliente",
+        "tags": [
+          "Reportes"
+        ],
+        "operationId": "/reporte_venta_cliente",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "productosrequest": {
+      "title": "productosrequest",
+      "example": {
+        "productoNombre": "Pulsera inteligente Xiaomi Mi Band 6",
+        "productoDescripcion": "Bluetooth multilenguaje",
+        "productoImagen": "https://firebasestorage.googleapis.com/v0/b/codigo-g9-a28b5.appspot.com/o/fotos%2Fpulsera.jpg?alt=media&token=662c5dcf-a44c-4c30-ae1d-a1bc36af9986",
+        "productoPrecio": 162,
+        "productoStock": 100,
+        "productoOferta": false
+      },
+      "type": "object",
+      "properties": {
+        "productoNombre": {
+          "type": "string"
+        },
+        "productoDescripcion": {
+          "type": "string"
+        },
+        "productoImagen": {
+          "type": "string"
+        },
+        "productoPrecio": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productoStock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productoOferta": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "productoNombre",
+        "productoDescripcion",
+        "productoImagen",
+        "productoPrecio",
+        "productoStock",
+        "productoOferta"
+      ]
+    },
+    "/registrorequest": {
+      "title": "/registrorequest",
+      "example": {
+        "nombre": "Mario Medina",
+        "correo": "mariomedinam@gmail.com",
+        "password": "mariomedinam",
+        "telefono": "969763952"
+      },
+      "type": "object",
+      "properties": {
+        "nombre": {
+          "type": "string"
+        },
+        "correo": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "telefono": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nombre",
+        "correo",
+        "password",
+        "telefono"
+      ]
+    },
+    "/loginrequest": {
+      "title": "/loginrequest",
+      "example": {
+        "correo": "mariomedinam@gmail.com",
+        "password": "mariomedinam"
+      },
+      "type": "object",
+      "properties": {
+        "correo": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "correo",
+        "password"
+      ]
+    },
+    "/loginjwtrequest": {
+      "title": "/loginjwtrequest",
+      "example": {
+        "username": "mariomedinam@gmail.com",
+        "password": "mariomedinam"
+      },
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "/distritosrequest": {
+      "title": "/distritosrequest",
+      "example": {
+        "dptoNombre": "Cuzco",
+        "provNombre": "Cuzco",
+        "distrNombre": "Cuzco",
+        "distrGeo": [
+          -13.5240215,
+          -71.9737313
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "dptoNombre": {
+          "type": "string"
+        },
+        "provNombre": {
+          "type": "string"
+        },
+        "distrNombre": {
+          "type": "string"
+        },
+        "distrGeo": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "dptoNombre",
+        "provNombre",
+        "distrNombre",
+        "distrGeo"
+      ]
+    },
+    "/pedidosrequest": {
+      "title": "/pedidosrequest",
+      "example": {
+        "pedidoDireccion": "Direccion xyz",
+        "pedidoDistrDestino": 3,
+        "clienteNombre": "Mario Alexander",
+        "clienteCorreo": "micorreo@gmail.com",
+        "pedidoGeo": [
+          -2.197029,
+          -3.626308
+        ],
+        "pedProductos": [
+          {
+            "producto": 5,
+            "pedProdCantidad": 5
+          },
+          {
+            "producto": 6,
+            "pedProdCantidad": 10
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "pedidoDireccion": {
+          "type": "string"
+        },
+        "pedidoDistrDestino": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "clienteNombre": {
+          "type": "string"
+        },
+        "clienteCorreo": {
+          "type": "string"
+        },
+        "pedidoGeo": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "pedProductos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PedProducto"
+          }
+        }
+      },
+      "required": [
+        "pedidoDireccion",
+        "pedidoDistrDestino",
+        "clienteNombre",
+        "clienteCorreo",
+        "pedidoGeo",
+        "pedProductos"
+      ]
+    },
+    "PedProducto": {
+      "title": "PedProducto",
+      "example": {
+        "producto": 5,
+        "pedProdCantidad": 5
+      },
+      "type": "object",
+      "properties": {
+        "producto": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pedProdCantidad": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "producto",
+        "pedProdCantidad"
+      ]
+    },
+    "/clientesrequest": {
+      "title": "/clientesrequest",
+      "example": {
+        "clienteNombre": "Mi cliente",
+        "clienteCorreo": "micorreo3@correo.com",
+        "clienteDireccion": "MI Casa",
+        "clienteTelefono": "969785412",
+        "clienteDistrito": 3
+      },
+      "type": "object",
+      "properties": {
+        "clienteNombre": {
+          "type": "string"
+        },
+        "clienteCorreo": {
+          "type": "string"
+        },
+        "clienteDireccion": {
+          "type": "string"
+        },
+        "clienteTelefono": {
+          "type": "string"
+        },
+        "clienteDistrito": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "clienteNombre",
+        "clienteCorreo",
+        "clienteDireccion",
+        "clienteTelefono",
+        "clienteDistrito"
+      ]
+    },
+    "/pedido_productos_request": {
+      "title": "/pedido_productos_request",
+      "example": {
+        "pedProdCantidad": 3,
+        "pedido": 40,
+        "producto": 5,
+        "pedProdPrecioUnit": 12.34
+      },
+      "type": "object",
+      "properties": {
+        "pedProdCantidad": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pedido": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "producto": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pedProdPrecioUnit": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "pedProdCantidad",
+        "pedido",
+        "producto",
+        "pedProdPrecioUnit"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Productos"
+    },
+    {
+      "name": "Usuarios"
+    },
+    {
+      "name": "Distrito"
+    },
+    {
+      "name": "Pedidos"
+    },
+    {
+      "name": "Clientes"
+    },
+    {
+      "name": "Pedido Producto"
+    },
+    {
+      "name": "Pedido Ruta"
+    },
+    {
+      "name": "Reportes"
+    }
+  ]
+}

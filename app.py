@@ -25,10 +25,26 @@ from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
 from datetime import timedelta
 from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
 
 
 
 load_dotenv()
+
+# CONFIGURACION SWAGGER FLASK
+
+# ESTA variable se usa para indicar en que ruta (endpoint) se encontrara la documentacion
+SWAGGER_URL = "/api/docs"
+# indicar la ubicacion del archivo JSON
+API_URL = "/static/swagger.json"
+swagger_blueprint = get_swaggerui_blueprint(
+    base_url=SWAGGER_URL,
+    api_url=API_URL,
+    config={
+        'app_name': 'Reposteria Flask - Documentacion Swagger'
+    }
+)
+# FIN DE CONFIGURACION
 
 app = Flask(__name__)
 CORS(app=app, origins='*', methods=['GET',
