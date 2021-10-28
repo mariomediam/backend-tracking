@@ -153,22 +153,22 @@ class PedidosController(Resource):
             distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
 
             
-            # pdf_template(
-            #     template="formato_compra.html", 
-            #     output=nuevo_pedido.pedidoToken, 
-            #     pedidoToken=nuevo_pedido.pedidoToken,
-            #     clienteNombre=data.get('clienteNombre'), 
-            #     clienteCorreo=data.get('clienteCorreo'), 
-            #     clienteTelefono=data.get('clienteTelefono'), 
-            #     pedidoDireccion=data.get('pedidoDireccion'),
-            #     dptoNombre = distrito_destino.dptoNombre,
-            #     provNombre = distrito_destino.provNombre,
-            #     distrNombre = distrito_destino.distrNombre,
-            #     productos = productos,
-            #     rutas=rutas_template
-            # )
+            pdf_template(
+                template="formato_compra.html", 
+                output=nuevo_pedido.pedidoToken, 
+                pedidoToken=nuevo_pedido.pedidoToken,
+                clienteNombre=data.get('clienteNombre'), 
+                clienteCorreo=data.get('clienteCorreo'), 
+                clienteTelefono=data.get('clienteTelefono'), 
+                pedidoDireccion=data.get('pedidoDireccion'),
+                dptoNombre = distrito_destino.dptoNombre,
+                provNombre = distrito_destino.provNombre,
+                distrNombre = distrito_destino.distrNombre,
+                productos = productos,
+                rutas=rutas_template
+            )
 
-            # enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  '''./static/pdfs/{}.pdf'''.format(nuevo_pedido.pedidoToken))
+            enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  '''./static/pdfs/{}.pdf'''.format(nuevo_pedido.pedidoToken))
         
             
             return {
@@ -186,14 +186,26 @@ class PedidosController(Resource):
                 "content": e.args[0]
             }, 500
 
-    @jwt_required()
+    #@jwt_required()
     def get(self):
         pedidos = base_de_datos.session.query(PedidoModel).all()
         resultado = []
+        # for pedido in pedidos:
+        #     pedido_dicc = pedido.__dict__            
+        #     del pedido_dicc['_sa_instance_state']
+        #     pedido_dicc['pedidoFecha'] = str(pedido_dicc['pedidoFecha'])
+        #     resultado.append(pedido_dicc)
+
         for pedido in pedidos:
-            pedido_dicc = pedido.__dict__            
+            pedido_dicc = pedido.__dict__ 
+
+            cliente_buscado : ClienteModel = base_de_datos.session.query(ClienteModel).filter(ClienteModel.clienteId==pedido_dicc["cliente"]).first()     
+
             del pedido_dicc['_sa_instance_state']
             pedido_dicc['pedidoFecha'] = str(pedido_dicc['pedidoFecha'])
+            pedido_dicc['clienteNombre'] = cliente_buscado.clienteNombre
+            pedido_dicc['clienteTelefono'] = cliente_buscado.clienteTelefono
+            pedido_dicc['clienteCorreo'] = cliente_buscado.clienteCorreo            
             resultado.append(pedido_dicc)
 
         return {

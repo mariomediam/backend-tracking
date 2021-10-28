@@ -53,9 +53,6 @@ class PedidoProductosController(Resource):
             else:
                 precioUnit = data.get('pedProdPrecioUnit')
 
-
-            print("Pasoooooooooooooooo")
-            print(precioUnit)
             nuevo_pedido_producto : PedidoProductoModel = PedidoProductoModel()            
             nuevo_pedido_producto.pedProdCantidad = data.get('pedProdCantidad')
             nuevo_pedido_producto.pedProdPrecioUnit = precioUnit
@@ -82,3 +79,43 @@ class PedidoProductosController(Resource):
                 "content": e.args[0]
             }, 500
 
+
+class PedidoProductoControllerPorPedidoId(Resource):
+
+    def __init__(self):
+        self.serializadorFiltro = reqparse.RequestParser()
+        self.serializadorFiltro.add_argument(
+            'pedidoId',
+            location='args',
+            required=True,
+            type=str
+        )
+
+    def get(self):
+        filtros = self.serializadorFiltro.parse_args()
+        resultado = base_de_datos.session.query(PedidoProductoModel).filter(PedidoProductoModel.pedido==filtros["pedidoId"]).all()
+        
+        resultado_final = []
+        if resultado:
+            
+            for registro in resultado:
+                resultado = registro.__dict__
+                del resultado['_sa_instance_state']                
+
+                producto_buscado = base_de_datos.session.query(ProductoModel).filter(ProductoModel.productoId==resultado['producto']).first()
+                
+                resultado['pedProdPrecioUnit'] = float(resultado['pedProdPrecioUnit'])                
+                resultado['productoDescripcion'] = producto_buscado.__dict__['productoDescripcion']
+                resultado['productoImagen'] = producto_buscado.__dict__['productoImagen']
+                resultado['productoNombre'] = producto_buscado.__dict__['productoNombre']
+
+                resultado_final.append(resultado)                            
+            return {
+                "message": "Registros encontrados",
+                "content": resultado_final
+            }
+        else:
+            return {
+                "message": "No se encontraron registros coincidentes",
+                "content": resultado_final
+            }, 200

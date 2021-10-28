@@ -18,8 +18,8 @@ from controllers.usuarios import RegistroController, LoginController, UsuarioCon
 from controllers.distrito import DistritosController, DistritoController, DistritosControllerFiltrar
 from controllers.pedido import PedidosController, PedidoController, PedidoControllerFiltrar
 from controllers.cliente import ClientesController, ClienteController, ClientesControllerFiltrar
-from controllers.pedido_producto import PedidoProductosController
-from controllers.pedido_ruta import PedidoRutaControllerPorPedidoId
+from controllers.pedido_producto import PedidoProductosController, PedidoProductoControllerPorPedidoId
+from controllers.pedido_ruta import PedidoRutaControllerPorPedidoId, PedidoRutaController
 from controllers.reportes import ReporteControllerVentasPorDistrito, ReporteControllerVentasPorProducto, ReporteControllerVentasPorCliente
 from flask_jwt import JWT
 from config.seguridad import autenticador, identificador
@@ -90,5 +90,7 @@ api.add_resource(PedidoRutaControllerPorPedidoId, "/buscar_pedido_ruta")
 api.add_resource(ReporteControllerVentasPorDistrito, "/reporte_venta_distrito")
 api.add_resource(ReporteControllerVentasPorProducto, "/reporte_venta_producto")
 api.add_resource(ReporteControllerVentasPorCliente, "/reporte_venta_cliente")
+api.add_resource(PedidoProductoControllerPorPedidoId, "/buscar_pedido_producto")
+api.add_resource(PedidoRutaController, "/pedido_ruta/<int:id>")
 if __name__ == '__main__':
     app.run(debug=True)    

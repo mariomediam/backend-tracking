@@ -19,7 +19,7 @@ class PedidoRutaControllerPorPedidoId(Resource):
 
     def get(self):
         filtros = self.serializadorFiltro.parse_args()
-        resultado = base_de_datos.session.query(PedidoRutaModel).filter(PedidoRutaModel.pedido==filtros["pedidoId"]).all()
+        resultado = base_de_datos.session.query(PedidoRutaModel).filter(PedidoRutaModel.pedido==filtros["pedidoId"]).order_by(PedidoRutaModel.pedRutPasoNro).all()
         
         resultado_final = []
         if resultado:
@@ -41,3 +41,43 @@ class PedidoRutaControllerPorPedidoId(Resource):
                 "message": "No se encontraron registros coincidentes",
                 "content": resultado_final
             }, 200
+
+class PedidoRutaController(Resource):    
+
+    def put(self, id):
+        serializador = reqparse.RequestParser()
+        serializador.add_argument(
+            'pedidoRuta_fecReal',
+            required=True, 
+            location='json',
+            help='Debe ingresar fecha de movimiento',
+            type=str,
+        )
+        serializador.add_argument(
+            'pedRutaComent',
+            required=True, 
+            location='json',
+            help='Debe ingresar comentario',
+            type=str,
+        )
+        data = serializador.parse_args()
+        resultado = base_de_datos.session.query(PedidoRutaModel).filter(
+            PedidoRutaModel.pedRutaId == id).update(
+                {
+                    PedidoRutaModel.pedRutFechaReal: data['pedidoRuta_fecReal'],
+                    PedidoRutaModel.pedRutaComent: data['pedRutaComent'],
+                    PedidoRutaModel.pedRutRecibido: True
+                }, synchronize_session='fetch')
+
+        base_de_datos.session.commit()
+        print(resultado)
+        if resultado == 0:
+            return {
+                "message": "No hubo xxxxxx a actualizar",
+                "content": None
+            }, 404
+        else:
+            return {
+                "message": "El xxxxxx fue actualizado exitosamente",
+                "content": None
+            }
