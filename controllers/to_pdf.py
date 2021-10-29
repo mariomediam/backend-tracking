@@ -9,5 +9,6 @@ def pdf_template(**kwargs):
     #pdf = pdfkit.from_string(rendered, "./static/pdfs/{}.pdf".format(kwargs["output"]))
     pdf = pdfkit.from_string("Holaaaa", "/app/tmp/output.pdf", configuration=config)
     #pdfkit.from_string('Hello!', 'out.pdf')
+    return pdf
     
 
