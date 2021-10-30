@@ -24,6 +24,8 @@ def pdf_template(**kwargs):
     # file.close()
     # return file
 
+    pdf = None
+
     pdf = pdfkit.from_string(rendered, False, configuration=config)
     
     return pdf
