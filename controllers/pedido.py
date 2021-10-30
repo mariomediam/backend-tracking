@@ -153,7 +153,7 @@ class PedidosController(Resource):
             distrito_destino : DistritoModel =  base_de_datos.session.query(DistritoModel).filter(DistritoModel.distritoId == data.get('pedidoDistrDestino')).first()
 
             
-            file_pdf = pdf_template(
+            pdf = pdf_template(
                 template="formato_compra.html", 
                 output=nuevo_pedido.pedidoToken, 
                 pedidoToken=nuevo_pedido.pedidoToken,
@@ -168,10 +168,12 @@ class PedidosController(Resource):
                 rutas=rutas_template
             )
 
-            print(file_pdf)
+            # print("********************")
+            # print(pdf)
+            # enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  '''./static/pdfs/{}.pdf'''.format(nuevo_pedido.pedidoToken))
 
-            #enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  '''./static/pdfs/{}.pdf'''.format(nuevo_pedido.pedidoToken))
-        
+            enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  pdf)
+            
             
             return {
                 "message": "Pedido agregado exitosamente",
