@@ -6,11 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import email.mime.application
 
-mensaje = MIMEMultipart()
 
-mensaje["From"] = environ.get("EMAIL")
-mensaje["Subject"]="Registro de compra"
-password = environ.get("EMAIL_PASSWORD")
 
 # def enviarCorreo(destinatario, cuerpo, ruta_attach):    
 #     print("destinatario " +  destinatario)
@@ -38,7 +34,14 @@ password = environ.get("EMAIL_PASSWORD")
 #     except Exception as e:
 #         print(e)
 
-def enviarCorreo(destinatario, cuerpo, file_attch):    
+def enviarCorreo(destinatario, cuerpo, file_attch):  
+
+    mensaje = MIMEMultipart()
+
+    mensaje["From"] = environ.get("EMAIL")
+    mensaje["Subject"]="Registro de compra"
+    password = environ.get("EMAIL_PASSWORD")  
+    
     print("destinatario " +  destinatario)
     mensaje["To"]=destinatario
     texto=mensaje
