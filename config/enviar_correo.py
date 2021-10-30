@@ -49,6 +49,7 @@ def enviarCorreo(destinatario, cuerpo, file_attch):
     # fo.close()
     # attach.add_header('Content-Disposition','attachment',filename=filename)
     # mensaje.attach(attach)
+    
     attach = email.mime.application.MIMEApplication(file_attch,_subtype="pdf")
     attach.add_header('Content-Disposition','attachment',filename="RegistroPedido.pdf")
     mensaje.attach(attach)
@@ -63,6 +64,8 @@ def enviarCorreo(destinatario, cuerpo, file_attch):
             msg=mensaje.as_string()
         )
         servidorSMTP.quit()
+
+        del attach
     except Exception as e:
         print(e)
 

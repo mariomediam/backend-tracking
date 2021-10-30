@@ -176,7 +176,7 @@ class PedidosController(Resource):
 
             enviarCorreo(data.get('clienteCorreo'), '''Estimado {} se ha registrado su compra la cual podrás consultar en la página web https://trackingapp.vercel.app/ con el número de tracking {}'''.format(data.get('clienteNombre'), nuevo_pedido.pedidoToken),  pdf)
             
-            pdf = None
+            del pdf
             
             return {
                 "message": "Pedido agregado exitosamente",
